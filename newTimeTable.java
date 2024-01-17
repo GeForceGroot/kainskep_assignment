@@ -96,19 +96,24 @@ public class newTimeTable {
             HashMap<String, HashMap<Integer, String>> innerMap = finalTimeTable.get(i);
             Set<String> daySet = innerMap.keySet();
             int num = 0;
-            for (String j : daySet) {
-                HashMap<Integer, String> innerMap2 = innerMap.get(j);
-                Set<Integer> innerSet2 = innerMap2.keySet();
-                for (int k : innerSet2) {
-                    if (!innerMap2.containsValue(list.get(num)) && countClasses.get(list.get(num)) < maxClasses.get(list.get(num))) {
-                        innerMap2.put(k, list.get(num));
-                        countClasses.put(list.get(num), countClasses.get(list.get(num)) + 1);
-                    }
-                    num++;
-                    if (num == list.size()) {
-                        num = 0;
+            int total = 0;
+            while (num!=list.size() && total!=2) {
+                for (String j : daySet) {
+                    HashMap<Integer, String> innerMap2 = innerMap.get(j);
+                    Set<Integer> innerSet2 = innerMap2.keySet();
+                    for (int k : innerSet2) {
+                        for (int value = 0; value < list.size(); value++) {
+                            if ((!innerMap2.containsValue(list.get(value)) && countClasses.get(list.get(value)) < maxClasses.get(list.get(value))) && innerMap2.get(k) == null) {
+                                innerMap2.put(k, list.get(value));
+                                countClasses.put(list.get(value), countClasses.get(list.get(value)) + 1);
+                            }
+                            if (countClasses.get(value) == maxClasses.get(value)) {
+                                num++;
+                            }
+                        }
                     }
                 }
+                total++;
             }
         }
     }
